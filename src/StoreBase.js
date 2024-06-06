@@ -12,7 +12,7 @@ export class StoreBase {
         XAD: TypeCastXAD,
         XTN: TypeCastXTN
     };
-    
+
     /**
      * Constructor for StoreBase class.
      * @param {object} segmentInstance - Instance of the HL7v2 segment.
@@ -38,7 +38,7 @@ export class StoreBase {
      * @throws {Error} If records already exist and force flag is not set.
      */
     setRecords(records, force = false) {
-        if (Object.keys(records).length === 0 || force) {
+        if (Object.keys(this.records).length === 0 || force) {
             this.records = records;
         } else {
             throw new Error(`Instance Record not empty. Either set record before processing or use force flag!`);
@@ -78,17 +78,15 @@ export class StoreBase {
      * @param {*} fieldValue - Value of the field.
      * @param {*} typeCaster - Type caster for the field.
      * @param {*} fieldPrepare - Field preparer.
+     * @param {*} entryCount - record entry count.
      * @returns {object|null} The prepared field object or null if data is invalid.
      */
-    _createAndPrepareField(fieldName, fieldValue, typeCaster, fieldPrepare) {
+    _createAndPrepareField(fieldName, fieldValue, typeCaster, fieldPrepare, entryCount = 1) {
         if (fieldValue) {
             const castedValue = new typeCaster(fieldValue).typecast();
-            return new fieldPrepare(fieldName, castedValue)
-                .setGroupId(this.groupId)
-                .setSID(this.msgSID)
-                .setMessageId(this.messageId)
-                .setSegment(this.segment)
-                .prepare();
+            let output = new fieldPrepare(fieldName, castedValue).setGroupId(this.groupId).setSID(this.msgSID).setMessageId(this.messageId).setSegment(this.segment).setEntryCount(entryCount).prepare();
+            console.log('output', output);
+            return output;
         }
         return null;
     }
@@ -103,31 +101,32 @@ export class StoreBase {
         if (!this.records[fieldName]) {
             this.records[fieldName] = [];
         }
-        fields.forEach(field => {
-            if (Array.isArray(this.segmentInstance[field])) {
-                this.segmentInstance[field].forEach(fieldData => {
-                    const record = this._createAndPrepareField(
-                        field,
-                        fieldData,
-                        StoreBase.TypeCast[fieldName],
-                        fieldPrepare
-                    );
-                    if (record) {
-                        this.records[fieldName].push(record);
-                    }
 
-                });
-            } else {
-                const record = this._createAndPrepareField(
-                    field,
-                    this.segmentInstance[field],
-                    StoreBase.TypeCast[fieldName],
-                    fieldPrepare
-                );
-                if (record) {
+        const processField = (field, fieldData, entryIndex = 1) => {
+            const record = this._createAndPrepareField(
+                field,
+                fieldData,
+                StoreBase.TypeCast[fieldName],
+                fieldPrepare,
+                entryIndex
+            );
+            if (record) {
+                if (Array.isArray(record)) {
+                    this.records[fieldName].push(...record);
+                } else {
                     this.records[fieldName].push(record);
                 }
+            }
+        };
 
+        fields.forEach(field => {
+            const fieldData = this.segmentInstance[field];
+            if (Array.isArray(fieldData)) {
+                fieldData.forEach((data, index) => {
+                    processField(field, data, index + 1);
+                });
+            } else {
+                processField(field, fieldData);
             }
         });
     }
@@ -188,53 +187,53 @@ export class StoreBase {
         });
     }
 
-    setCWEFields(fields){
-        if(Array.isArray(fields)){
+    setCWEFields(fields) {
+        if (Array.isArray(fields)) {
             this.CWEFields.push(...fields);
         } else {
             this.CWEFields.push(fields);
         }
     }
 
-    setXCNFields(fields){
-        if(Array.isArray(fields)){
+    setXCNFields(fields) {
+        if (Array.isArray(fields)) {
             this.XCNFields.push(...fields);
         } else {
             this.XCNFields.push(fields);
         }
     }
 
-    setCXFields(fields){
-        if(Array.isArray(fields)){
+    setCXFields(fields) {
+        if (Array.isArray(fields)) {
             this.CXFields.push(...fields);
         } else {
             this.CXFields.push(fields);
         }
     }
 
-    setXTNFields(fields){
-        if(Array.isArray(fields)){
+    setXTNFields(fields) {
+        if (Array.isArray(fields)) {
             this.XTNFields.push(...fields);
         } else {
             this.XTNFields.push(fields);
         }
     }
 
-    setXADFields(fields){
-        if(Array.isArray(fields)){
+    setXADFields(fields) {
+        if (Array.isArray(fields)) {
             this.XADFields.push(...fields);
         } else {
             this.XADFields.push(fields);
         }
     }
 
-    prepareSegmentFields(){}
+    prepareSegmentFields() { }
 
     /**
      * Prepare the records with validation before storing the records.
      * @throws {Error} If message ID or SID is missing.
      */
-    prepare(){
+    prepare() {
         if (!this.messageId) {
             throw new Error(`Message ID is required for saving the record. Please set the message ID before preparing.`);
         }
@@ -245,23 +244,23 @@ export class StoreBase {
         try {
             this.prepareSegmentFields();
 
-            if(this.CWEFields?.length > 0){
+            if (this.CWEFields?.length > 0) {
                 this.storeCWEFields(this.CWEFields);
             }
 
-            if(this.CXFields?.length > 0){
+            if (this.CXFields?.length > 0) {
                 this.storeCXFields(this.CXFields);
             }
 
-            if(this.XCNFields?.length > 0){
+            if (this.XCNFields?.length > 0) {
                 this.storeXCNFields(this.XCNFields);
             }
 
-            if(this.XADFields?.length > 0){
+            if (this.XADFields?.length > 0) {
                 this.storeXADFields(this.XADFields);
             }
 
-            if(this.XTNFields?.length > 0){
+            if (this.XTNFields?.length > 0) {
                 this.storeXTNFields(this.XTNFields);
             }
         } catch (e) {
@@ -270,5 +269,5 @@ export class StoreBase {
         return this.records;
     }
 
-    store() {}
+    store() { }
 }
