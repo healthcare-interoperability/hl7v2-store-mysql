@@ -246,23 +246,23 @@ export class StoreBase {
             this.prepareSegmentFields();
 
             if(this.CWEFields?.length > 0){
-                this.storeCWEFields(CWEFields);
+                this.storeCWEFields(this.CWEFields);
             }
 
             if(this.CXFields?.length > 0){
-                this.storeCXFields(CXFields);
+                this.storeCXFields(this.CXFields);
             }
 
             if(this.XCNFields?.length > 0){
-                this.storeXCNFields(XCNFields);
+                this.storeXCNFields(this.XCNFields);
             }
 
             if(this.XADFields?.length > 0){
-                this.storeXADFields(XADFields);
+                this.storeXADFields(this.XADFields);
             }
 
             if(this.XTNFields?.length > 0){
-                this.storeXTNFields(XTNFields);
+                this.storeXTNFields(this.XTNFields);
             }
         } catch (e) {
             console.error(e); // Consider handling the error more gracefully
