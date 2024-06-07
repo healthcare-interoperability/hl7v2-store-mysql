@@ -85,7 +85,6 @@ export class StoreBase {
         if (fieldValue) {
             const castedValue = new typeCaster(fieldValue).typecast();
             let output = new fieldPrepare(fieldName, castedValue).setGroupId(this.groupId).setSID(this.msgSID).setMessageId(this.messageId).setSegment(this.segment).setEntryCount(entryCount).prepare();
-            console.log('output', output);
             return output;
         }
         return null;
