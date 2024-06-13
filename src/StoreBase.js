@@ -29,6 +29,7 @@ export class StoreBase {
         this.XCNFields = [];
         this.XADFields = [];
         this.XTNFields = [];
+        this.groupEntry = 1;
     }
 
     /**
@@ -64,6 +65,15 @@ export class StoreBase {
     }
 
     /**
+    * Set the groupEntry.
+    * @param {string} groupEntry - The group groupEntry to set.
+    */
+    setGroupEntry(groupEntry) {
+        this.groupEntry = groupEntry;
+        return this;
+    }
+
+    /**
      * Sets the message ID.
      * @param {string} messageId - The message ID to set.
      */
@@ -84,7 +94,7 @@ export class StoreBase {
     _createAndPrepareField(fieldName, fieldValue, typeCaster, fieldPrepare, entryCount = 1) {
         if (fieldValue) {
             const castedValue = new typeCaster(fieldValue).typecast();
-            let output = new fieldPrepare(fieldName, castedValue).setGroupId(this.groupId).setSID(this.msgSID).setMessageId(this.messageId).setSegment(this.segment).setEntryCount(entryCount).prepare();
+            let output = new fieldPrepare(fieldName, castedValue).setGroupId(this.groupId).setGroupEntry(this.groupEntry).setSID(this.msgSID).setMessageId(this.messageId).setSegment(this.segment).setEntryCount(entryCount).prepare();
             return output;
         }
         return null;
@@ -182,6 +192,7 @@ export class StoreBase {
             msg_id: this.messageId,
             msg_sid: this.msgSID,
             msg_group_id: this.groupId,
+            msg_group_entry: this.groupEntry,
             ...data
         });
     }
