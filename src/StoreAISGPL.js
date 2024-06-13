@@ -43,18 +43,6 @@ export class StoreAISGPL extends StoreBase {
         this.setXCNFields(XCNFields);
     }
 
-    prepareUnits(units) {
-        try {
-            if (units) {
-                let typecastedUnit = new TypeCastCWE(units).typecast();
-                return typecastedUnit.Identifier?.toString();
-            }
-        } catch (e) {
-            console.log(e);
-        }
-        return null;
-    }
-
     prepareSegmentFields() {
         this.setCWEFields(['FillerStatusCode']);
         let segmentData = {

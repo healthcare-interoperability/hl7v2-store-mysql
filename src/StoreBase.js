@@ -21,7 +21,7 @@ export class StoreBase {
     constructor(segmentInstance, segment) {
         this.segmentInstance = segmentInstance;
         this.segment = segment;
-        this.setGroupId(1);
+        this.setGroupId(`PARENT`);
         this._setSID(1);
         this.records = {};
         this.CWEFields = [];
@@ -224,6 +224,27 @@ export class StoreBase {
         } else {
             this.XADFields.push(fields);
         }
+    }
+
+    prepareUnits(units) {
+        try {
+            if (units) {
+                let typecastedUnit = new TypeCastCWE(units).typecast();
+                return typecastedUnit.Identifier?.toString();
+            }
+        } catch (e) {
+            console.log(e);
+        }
+        return null;
+    }
+
+    prepareEntityIdentifier(entInt) {
+        try {
+            return entInt?.EntityIdentifier?.toString();
+        } catch (e) {
+            console.log(e);
+        }
+        return null;
     }
 
     prepareSegmentFields() { }
