@@ -14,7 +14,7 @@ export class StoreIN1 extends StoreBase {
     constructor(segmentInstance) {
         if (segmentInstance instanceof IN1) {
             super(segmentInstance, 'IN1');
-            this._setSID(segmentInstance.SetIdInsurance?.toString());
+            this._setSID(segmentInstance.SetIdIn1?.toString());
         } else {
             throw new Error(`Not a valid Instance of IN1 Segment !!`)
         }

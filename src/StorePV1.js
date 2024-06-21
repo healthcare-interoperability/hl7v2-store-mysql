@@ -14,7 +14,7 @@ export class StorePV1 extends StoreBase {
     constructor(segmentInstance) {
         if (segmentInstance instanceof PV1) {
             super(segmentInstance, 'PV1');
-            this._setSID(segmentInstance.SetIdPatientVisit?.toString());
+            this._setSID(segmentInstance.SetIdPv1?.toString());
         }
     }
 
