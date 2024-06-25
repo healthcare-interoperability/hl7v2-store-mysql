@@ -1,4 +1,4 @@
-import { PrepareCWEField, PrepareCXField, PrepareXADField, PrepareXCNField, PrepareXTNField } from "@healthcare-interoperability/hl7v2-prepare-mysql";
+import { PrepareCWEField, PrepareCXField, PrepareXADField, PrepareXCNField, PrepareXTNField, PreparePLField } from "@healthcare-interoperability/hl7v2-prepare-mysql";
 import { TypeCastCWE, TypeCastCX, TypeCastXAD, TypeCastXCN, TypeCastXTN } from "@healthcare-interoperability/hl7v2-typecast";
 
 /**
@@ -29,6 +29,7 @@ export class StoreBase {
         this.XCNFields = [];
         this.XADFields = [];
         this.XTNFields = [];
+        this.PLFields = [];
         this.groupEntry = 1;
     }
 
@@ -180,6 +181,15 @@ export class StoreBase {
         this._storeFields(XTNFields, PrepareXTNField, 'XTN');
     }
 
+    
+    /**
+     * Store PL fields.
+     * @param {string[]} PLFields - Array of PL field names.
+     */
+    storePLFields(PLFields) {
+        this._storeFields(PLFields, PreparePLField, 'PL');
+    }
+
     /**
      * Store segment fields.
      * @param {object} data - Data to store.
@@ -226,6 +236,14 @@ export class StoreBase {
             this.XTNFields.push(...fields);
         } else {
             this.XTNFields.push(fields);
+        }
+    }
+
+    setPLFields(fields) {
+        if (Array.isArray(fields)) {
+            this.PLFields.push(...fields);
+        } else {
+            this.PLFields.push(fields);
         }
     }
 
@@ -293,6 +311,10 @@ export class StoreBase {
 
             if (this.XTNFields?.length > 0) {
                 this.storeXTNFields(this.XTNFields);
+            }
+
+            if (this.PLFields?.length > 0) {
+                this.storePLFields(this.PLFields);
             }
         } catch (e) {
             console.error(e); // Consider handling the error more gracefully

@@ -15,6 +15,8 @@ export class StorePID extends StoreBase {
         if (segmentInstance instanceof PID) {
             super(segmentInstance, 'PID');
             this._setSID(segmentInstance.SetIdPid?.toString());
+        } else {
+            throw new Error(`Not a valid Instance of PID Segment !!`);
         }
     }
 

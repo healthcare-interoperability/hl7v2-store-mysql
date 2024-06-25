@@ -15,16 +15,19 @@ export class StorePV1 extends StoreBase {
         if (segmentInstance instanceof PV1) {
             super(segmentInstance, 'PV1');
             this._setSID(segmentInstance.SetIdPv1?.toString());
+        } else {
+            throw new Error(`Not a valid Instance of PV1 Segment !!`);
         }
     }
 
-    prepareSegmentFields(){
+    prepareSegmentFields() {
         this.setCWEFields(['PatientClass', 'AdmissionType', 'AccountStatus']);
         this.setCXFields(['VisitNumber']);
         this.setXCNFields(['AttendingDoctor', 'ReferringDoctor', 'AdmittingDoctor']);
+        this.setPLFields(['PriorPatientLocation','TemporaryLocation']);
         let segmentData = {
-            pv1_admit_datetime: HL7v2MySQLUtils.validateDTM(this.segmentInstance.AdmitDateTime),
-            pv1_discharge_datetime: HL7v2MySQLUtils.validateDTM(this.segmentInstance.DischargeDateTime?.[0])
+            pv_admit_datetime: HL7v2MySQLUtils.validateDTM(this.segmentInstance.AdmitDateTime),
+            pv_discharge_datetime: HL7v2MySQLUtils.validateDTM(this.segmentInstance.DischargeDateTime?.[0])
         };
         this.storeSegmentFields(segmentData);
     }
