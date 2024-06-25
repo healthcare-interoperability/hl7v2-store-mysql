@@ -1,5 +1,5 @@
 import { PrepareCWEField, PrepareCXField, PrepareXADField, PrepareXCNField, PrepareXTNField, PreparePLField } from "@healthcare-interoperability/hl7v2-prepare-mysql";
-import { TypeCastCWE, TypeCastCX, TypeCastXAD, TypeCastXCN, TypeCastXTN } from "@healthcare-interoperability/hl7v2-typecast";
+import { TypeCastCWE, TypeCastCX, TypeCastXAD, TypeCastXCN, TypeCastXTN, TypeCastPL} from "@healthcare-interoperability/hl7v2-typecast";
 
 /**
  * Represents a base class for storing HL7v2 message segments and fields.
@@ -10,7 +10,8 @@ export class StoreBase {
         CX: TypeCastCX,
         XCN: TypeCastXCN,
         XAD: TypeCastXAD,
-        XTN: TypeCastXTN
+        XTN: TypeCastXTN,
+        PL: TypeCastPL
     };
 
     /**
