@@ -1,7 +1,7 @@
+import { StoreBase } from "./StoreBase";
 import { AIG, AIL, AIS, AIP } from "@healthcare-interoperability/hl7v2-segments";
 import { HL7v2MySQLUtils } from "@healthcare-interoperability/hl7v2-utils-mysql";
-import { StoreBase } from "@healthcare-interoperability/hl7v2-store-mysql";
-import { TypeCastCWE } from '@healthcare-interoperability/hl7v2-typecast';
+
 
 export class StoreAISGPL extends StoreBase {
     constructor(segmentInstance) {

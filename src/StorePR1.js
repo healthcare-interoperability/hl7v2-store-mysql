@@ -19,7 +19,7 @@ export class StorePR1 extends StoreBase {
       procedure_description: this.segmentInstance.ProcedureDescription?.toString() || null,
       procedure_datetime: HL7v2MySQLUtils.validateDTM(this.segmentInstance.ProcedureDateTime),
       procedure_minutes: this.segmentInstance.ProcedureMinutes?.toString() || null,
-      anesthesia_minutes: this.segmentInstance.AnesthesiaMinutes?.toString() || null
+      procedure_anesthesia_minutes: this.segmentInstance.AnesthesiaMinutes?.toString() || null
     };
 
     this.storeSegmentFields(segmentData);
