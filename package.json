@@ -16,10 +16,10 @@
     "@babel/preset-env": "^7.24.7"
   },
   "dependencies": {
-    "@healthcare-interoperability/hl7v2-core": "^1.3.0",
-    "@healthcare-interoperability/hl7v2-datatypes": "^1.0.2",
-    "@healthcare-interoperability/hl7v2-prepare-mysql": "^1.2.0",
-    "@healthcare-interoperability/hl7v2-segments": "^1.2.2",
-    "@healthcare-interoperability/hl7v2-utils-mysql": "^1.0.0"
+    "@healthcare-interoperability/hl7v2-core": "^1.5.0",
+    "@healthcare-interoperability/hl7v2-datatypes": "^1.2.0",
+    "@healthcare-interoperability/hl7v2-prepare-mysql": "^1.3.0",
+    "@healthcare-interoperability/hl7v2-segments": "^1.4.0",
+    "@healthcare-interoperability/hl7v2-utils-mysql": "^1.1.0"
   }
 }
