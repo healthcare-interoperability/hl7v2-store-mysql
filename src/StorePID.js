@@ -28,9 +28,9 @@ export class StorePID extends StoreBase {
         this.setXTNFields(['PatientTelecommunicationInformation']);
         let segmentData = {
             pid_dob: HL7v2MySQLUtils.validateDTM(this.segmentInstance?.DateOfBirth),
-            pid_multiple_birth: this.segmentInstance?.MultipleBirthIndicator.toString() || null,
+            pid_multiple_birth: this.segmentInstance?.MultipleBirthIndicator?.toString() || null,
             pid_dodeath: HL7v2MySQLUtils.validateDTM(this.segmentInstance?.PatientDeathDateAndTime),
-            pid_death_indicator: this.segmentInstance?.PatientDeathIndicator.toString() || null,
+            pid_death_indicator: this.segmentInstance?.PatientDeathIndicator?.toString() || null,
             pid_ssn: this.segmentInstance?.SSNNumberPatient?.toString() || null,
             pid_dl_no: HL7v2MySQLUtils.prepareComplexData(this.segmentInstance?.DriversLicenseNumberPatient)
         };
