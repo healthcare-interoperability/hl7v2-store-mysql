@@ -21,7 +21,7 @@ export class StorePV1 extends StoreBase {
     }
 
     prepareSegmentFields() {
-        this.setCWEFields(['PatientClass', 'AdmissionType', 'AccountStatus']);
+        this.setCWEFields(['PatientClass', 'AdmissionType', 'AccountStatus','DischargeDisposition','AdmitSource','PatientType','HospitalService']);
         this.setCXFields(['VisitNumber']);
         this.setXCNFields(['AttendingDoctor', 'ReferringDoctor', 'AdmittingDoctor']);
         this.setPLFields(['PriorPatientLocation','TemporaryLocation']);
